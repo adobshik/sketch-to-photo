@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from torchvision.utils import save_image
 import numpy as np
-# функция для тренировки сети
+
 
 class Evaluator:
     def __init__(self, args_save_load, args, gen, disc):        
@@ -15,6 +15,7 @@ class Evaluator:
         self.L1_LOSS = nn.L1Loss()
         self.L1_LAMBDA = args['L1_LAMBDA']
     
+    # сохранение примеров работы генератора на валидационных данных
     def save_some_examples(self, val_loader, epoch):
         x, y = next(iter(val_loader))
         x, y = x.to(self.device), y.to(self.device)
