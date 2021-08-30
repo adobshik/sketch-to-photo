@@ -1,4 +1,5 @@
 import torch
+import argparse
 from skimage import io, transform
 from model_generator import Generator
 from torchvision.utils import save_image
