@@ -59,7 +59,7 @@ python inference.py
 ```
 python inference.py --MODEL_PATH '' --IMAGE_PATH '' --SAVE_PATH '' 
 ```
-MODEL_PATH (str): Путь до предобученного генератора
+MODEL_PATH (str): Путь до предобученного генератора ([скачать генератор](https://drive.google.com/drive/folders/1dh21no-tVoBcDiPDwtoqkCz6KvUnECj7?usp=sharing)). 
 
 IMAGE_PATH (str): Путь до картинки (эскиза)
 
