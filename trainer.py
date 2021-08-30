@@ -49,8 +49,8 @@ class Trainer:
             "state_dict": self.gen.state_dict(),
             "optimizer": self.opt_gen.state_dict(),
         }
-        torch.save(checkpoint_disc, self.args_save_load.CHECKPOINT_DISC + '_epoch_' + str(epoch))
-        torch.save(checkpoint_gen, self.args_save_load.CHECKPOINT_GEN + '_epoch_' + str(epoch))
+        torch.save(checkpoint_disc, self.args_save_load.CHECKPOINT_DISC + 'disc_epoch_' + str(epoch))
+        torch.save(checkpoint_gen, self.args_save_load.CHECKPOINT_GEN + 'gen_epoch_' + str(epoch))
        
     # загрузка моделей
     def load_checkpoint(self):
