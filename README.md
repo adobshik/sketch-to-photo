@@ -3,20 +3,20 @@
 В этом репозитории вы найдете модель, основанную на нейронной сети, которая берет контурное изображение (эскиз или рисунок) кошки и создает его цветную фотореалистическую версию.
 
 Пример набросанного в paint от руки контурного изображения и его синтезированная фотореалистическая версия. 
-![Image alt](https://github.com/adobshik/sketch-to-cat/blob/main/examples/1cat.png)
-![Image alt](https://github.com/adobshik/sketch-to-cat/blob/main/examples/1mask.png)
+![Image alt](https://github.com/adobshik/sketch-to-photo/blob/main/example/1cat.png)
+![Image alt](https://github.com/adobshik/sketch-to-photo/blob/main/example/1mask.png)
 
-![Image alt](https://github.com/adobshik/sketch-to-cat/blob/main/examples/2cat.png)
-![Image alt](https://github.com/adobshik/sketch-to-cat/blob/main/examples/2mask.png)
+![Image alt](https://github.com/adobshik/sketch-to-photo/blob/main/example/2cat.png)
+![Image alt](https://github.com/adobshik/sketch-to-photo/blob/main/example/2mask.png)
 
-![Image alt](https://github.com/adobshik/sketch-to-cat/blob/main/examples/3cat.png)
-![Image alt](https://github.com/adobshik/sketch-to-cat/blob/main/examples/3mask.png)
+![Image alt](https://github.com/adobshik/sketch-to-photo/blob/main/example/3cat.png)
+![Image alt](https://github.com/adobshik/sketch-to-photo/blob/main/example/3mask.png)
 
 Пример работы генератора на тренировочных данных:
 
 
-![Image alt](https://github.com/adobshik/sketch-to-cat/blob/main/examples/0a1f3266-f6a8-4d26-9314-7e3fb1d492f6.png)
-![Image alt](https://github.com/adobshik/sketch-to-cat/blob/main/examples/8b182abd-8191-4fe2-b81f-89b8f00f6a7c.png)
+![Image alt](https://github.com/adobshik/sketch-to-photo/blob/main/example/0a1f3266-f6a8-4d26-9314-7e3fb1d492f6.png)
+![Image alt](https://github.com/adobshik/sketch-to-photo/blob/main/example/8b182abd-8191-4fe2-b81f-89b8f00f6a7c.png)
 
 # Процесс подготовки данных:
 Фотографии кошек были взяты с [kaggle](https://www.kaggle.com/crawford/cat-dataset) (всего 9997 фотографий). 
@@ -35,5 +35,5 @@
 (График функции потерь не совсем точный, тк значение функции потерь не усреднялось по всем итерациям эпохи, а принималось равным значению функции потерь только на последней итерации эпохи).
 
 
-![Image alt](https://github.com/adobshik/sketch-to-cat/blob/main/examples/gen_testplot.png)
-![Image alt](https://github.com/adobshik/sketch-to-cat/blob/main/examples/disc_testplot.png)
+![Image alt](https://github.com/adobshik/sketch-to-photo/blob/main/example/gen_testplot.png)
+![Image alt](https://github.com/adobshik/sketch-to-photo/blob/main/example/disc_testplot.png)
