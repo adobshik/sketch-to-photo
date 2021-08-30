@@ -12,7 +12,7 @@ import argparse
 import pandas as pd
 import numpy as np
 from evaluator import Evaluator
-# функция для тренировки сети
+
 
 class Trainer:
     def __init__(self, args_save_load, args):        
@@ -38,7 +38,7 @@ class Trainer:
         self.G_LOSS_PATH = args['G_LOSS_PATH']
         self.evaluator = Evaluator(args_save_load, args, self.gen, self.disc)
              
-    # сохранение моделей модели
+    # сохранение моделей 
     def save_checkpoint(self, epoch):
         print("=> Saving checkpoint")
         checkpoint_disc = {
@@ -52,7 +52,7 @@ class Trainer:
         torch.save(checkpoint_disc, self.args_save_load.CHECKPOINT_DISC + '_epoch_' + str(epoch))
         torch.save(checkpoint_gen, self.args_save_load.CHECKPOINT_GEN + '_epoch_' + str(epoch))
        
-    # загрузка модели
+    # загрузка моделей
     def load_checkpoint(self):
         print("=> Loading checkpoint")
         checkpoint_disc = torch.load(self.args_save_load.CHECKPOINT_DISC, map_location='cpu')
@@ -63,7 +63,7 @@ class Trainer:
         self.opt_gen.load_state_dict(checkpoint_gen["optimizer"])
         print('Checkpoint was restored!')
     
-    
+    #  функция для тренировки одной эпохи сети
     def one_step(self, x, y):
         self.disc.train()
         self.gen.train()
@@ -107,7 +107,7 @@ class Trainer:
             # Запись в файл значений функций потерь для дальнейшего построения кривых обучения
             loss_writer(self.D_LOSS_PATH, train_loss=np.array(d_loss_epoch).mean(), val_loss=val_d_loss)
             loss_writer(self.G_LOSS_PATH, train_loss=np.array(g_loss_epoch).mean(), val_loss=val_g_loss)
-            if self.SAVE_MODEL and epoch % 5 == 0 and epoch != 0:  # сохранение меделей и примера работы генератора каждые 5 эпох
+            if self.SAVE_MODEL and epoch % 5 == 0 and epoch != 0:  # сохранение моделей каждые 5 эпох
                 self.save_checkpoint(epoch)
               
     
