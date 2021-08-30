@@ -51,7 +51,7 @@ FOLD (int): Валидационный фолд
 
 По дефолту модели сохраняются в metadata/models.
 
-2) Запустите inference.py с помощью комады и на место кавычек введите аргументы в виде: 
+2) Запустите inference.py и на место кавычек введите аргументы в виде: 
 ```
 python inference.py --MODEL_PATH '' --IMAGE_PATH '' --SAVE_PATH '' 
 ```
