@@ -1,0 +1,11 @@
+device: cuda:0
+LEARNING_RATE: 0.0002
+BATCH_SIZE: 4
+NUM_WORKERS: 1
+L1_LAMBDA: 100  # коэфициент, на который умножается L1_loss (значение предложенные в статье)
+NUM_EPOCHS: 100
+SAVE_MODEL: true  # True, чтобы сохранять модель в процессе тренировки
+
+D_LOSS_PATH: 'metadata/logs/disc_loss.txt'  # путь для сохранения значения функции потерь дискриминатора
+G_LOSS_PATH: 'metadata/logs/gen_loss.txt'  # путь для сохранения значения функции потерь генератора
+
