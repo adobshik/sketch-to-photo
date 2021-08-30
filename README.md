@@ -40,6 +40,7 @@ python trainer.py
 python trainer.py --DATASET_FILE_PATH '' --LOAD_MODEL '' --CHECKPOINT_DISC '' --CHECKPOINT_GEN '' --EXAMPLES_PATH '' --FOLD ''
 ```
 DATASET_FILE_PATH (str): Путь до csv файла с путями до тренировочных данных
+
 LOAD_MODEL (bool): Загрузить предобученную модель? True, если да; иначе False
 CHECKPOINT_DISC (str): Путь для сохранения дискриминатора
 CHECKPOINT_GEN (str): Путь для сохранения генератора
