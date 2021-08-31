@@ -33,15 +33,15 @@ class CatsDataset(Dataset):
 
         image = torch.FloatTensor(image)
         mask = torch.FloatTensor(mask)
-        #если изображение чернобелое, преобразование в трехмерный тензор, иначе только смена размерностей
+        # если изображение чернобелое, преобразование в трехмерный тензор, иначе только смена размерностей
         if len(image.shape) == 2:
             image = torch.stack([image] * 3)
         else:
             image = image.permute(2, 0, 1)
-            
+
         if len(mask.shape) == 2:
             mask = torch.stack([mask] * 3)
         else:
             mask = mask.permute(2, 0, 1)
-            
+
         return mask, image
