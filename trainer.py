@@ -15,7 +15,7 @@ from evaluator import Evaluator
 
 
 class Trainer:
-    def __init__(self, args_save_load, args):        
+    def __init__(self, args_save_load, args):
         self.args_save_load = args_save_load
         self.device = args['device'] if torch.cuda.is_available() else 'cpu'
         self.LOAD_MODEL = args_save_load.LOAD_MODEL
@@ -23,12 +23,12 @@ class Trainer:
         self.CHECKPOINT_GEN = args_save_load.CHECKPOINT_GEN
         self.LEARNING_RATE = args['LEARNING_RATE']
         self.disc = Discriminator(in_channels=3).to(self.device)
-        self.gen = Generator(in_channels=3, features=64).to(self.device)   
+        self.gen = Generator(in_channels=3, features=64).to(self.device)
         self.opt_disc = optim.Adam(self.disc.parameters(), lr=self.LEARNING_RATE, betas=(0.5, 0.999),)
         self.opt_gen = optim.Adam(self.gen.parameters(), lr=self.LEARNING_RATE, betas=(0.5, 0.999))
         if self.args_save_load.LOAD_MODEL:
             self.load_checkpoint()
-               
+
         self.BCE = nn.BCEWithLogitsLoss()
         self.L1_LOSS = nn.L1Loss()
         self.L1_LAMBDA = args['L1_LAMBDA']
@@ -37,8 +37,8 @@ class Trainer:
         self.D_LOSS_PATH = args['D_LOSS_PATH']
         self.G_LOSS_PATH = args['G_LOSS_PATH']
         self.evaluator = Evaluator(args_save_load, args, self.gen, self.disc)
-             
-    # сохранение моделей 
+
+    # сохранение моделей
     def save_checkpoint(self, epoch):
         print("=> Saving checkpoint")
         checkpoint_disc = {
@@ -51,7 +51,7 @@ class Trainer:
         }
         torch.save(checkpoint_disc, self.args_save_load.CHECKPOINT_DISC + 'disc_epoch_' + str(epoch))
         torch.save(checkpoint_gen, self.args_save_load.CHECKPOINT_GEN + 'gen_epoch_' + str(epoch))
-       
+
     # загрузка моделей
     def load_checkpoint(self):
         print("=> Loading checkpoint")
@@ -62,7 +62,7 @@ class Trainer:
         self.opt_disc.load_state_dict(checkpoint_disc["optimizer"])
         self.opt_gen.load_state_dict(checkpoint_gen["optimizer"])
         print('Checkpoint was restored!')
-    
+
     #  функция для тренировки одной эпохи сети
     def one_step(self, x, y):
         self.disc.train()
@@ -76,22 +76,22 @@ class Trainer:
         D_fake = self.disc(x, y_fake.detach())
         D_fake_loss = self.BCE(D_fake, torch.zeros_like(D_fake))
         D_loss = (D_real_loss + D_fake_loss) / 2
-    
+
         self.opt_disc.zero_grad()
         D_loss.backward()
         self.opt_disc.step()
-    
+
         # Тренировка генератора
         D_fake = self.disc(x, y_fake)
         G_fake_loss = self.BCE(D_fake, torch.ones_like(D_fake))
         L1 = self.L1_LOSS(y_fake, y) * self.L1_LAMBDA
         G_loss = G_fake_loss + L1
-    
+
         self.opt_gen.zero_grad()
         G_loss.backward()
         self.opt_gen.step()
         return D_loss.item(), G_loss.item()
-        
+
 
     def train(self, train_loader, val_loader):
         for epoch in range(self.NUM_EPOCHS):
@@ -109,8 +109,8 @@ class Trainer:
             loss_writer(self.G_LOSS_PATH, train_loss=np.array(g_loss_epoch).mean(), val_loss=val_g_loss)
             if self.SAVE_MODEL and epoch % 5 == 0 and epoch != 0:  # сохранение моделей каждые 5 эпох
                 self.save_checkpoint(epoch)
-              
-    
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Введите требуемые параметры и пути.')
     parser.add_argument('--DATASET_FILE_PATH', type=str, help='Путь до csv файла с путями до тренировочных данных')
@@ -119,7 +119,7 @@ if __name__ == "__main__":
     parser.add_argument('--CHECKPOINT_GEN',  default='metadata/models/gen.pth', type=str, help='Путь для сохранения генератора.')
     parser.add_argument('--EXAMPLES_PATH', default='metadata/examples', type=str, help='Путь для сохранения примеров работы генератора')
     parser.add_argument('--FOLD', default=5, type=int, help='Валидационный фолд')
-    
+
     args_save_load = parser.parse_args()
     with open(r'config.yaml') as file:
         args = yaml.load(file)
@@ -131,7 +131,6 @@ if __name__ == "__main__":
     train_loader = DataLoader(train_dataset, batch_size=args['BATCH_SIZE'], shuffle=True, num_workers=args['NUM_WORKERS'])
     val_dataset = CatsDataset(imagespath=df_val['cats'].tolist(),  maskspath=df_val['masks'].tolist(), augment=False)
     val_loader = DataLoader(val_dataset, batch_size=1, shuffle=False)
-    
+
     trainer = Trainer(args_save_load, args)
     trainer.train(train_loader, val_loader)
-        
