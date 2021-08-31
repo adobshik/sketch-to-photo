@@ -5,7 +5,7 @@ import numpy as np
 
 
 class Evaluator:
-    def __init__(self, args_save_load, args, gen, disc):        
+    def __init__(self, args_save_load, args, gen, disc):
         self.args_save_load = args_save_load
         self.device = args['device'] if torch.cuda.is_available() else 'cpu'
         self.EXAMPLES_PATH = args_save_load.EXAMPLES_PATH
@@ -14,7 +14,7 @@ class Evaluator:
         self.BCE = nn.BCEWithLogitsLoss()
         self.L1_LOSS = nn.L1Loss()
         self.L1_LAMBDA = args['L1_LAMBDA']
-    
+
     # сохранение примеров работы генератора на валидационных данных
     def save_some_examples(self, val_loader, epoch):
         x, y = next(iter(val_loader))
@@ -45,7 +45,6 @@ class Evaluator:
             G_loss = G_fake_loss + L1
 
         return D_loss.item(), G_loss.item()
-        
 
     def evaluate(self, val_loader, epoch):
         d_losses = []
