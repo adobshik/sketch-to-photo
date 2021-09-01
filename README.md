@@ -62,9 +62,9 @@ python trainer.py --DATASET_FILE_PATH '' --LOAD_MODEL True --CHECKPOINT_DISC_LOA
 ```
 DATASET_FILE_PATH (str): Путь до csv файла с путями до тренировочных данных
 
-CHECKPOINT_DISC_LOAD (str): Путь до обученного дискриминатора
+CHECKPOINT_DISC_LOAD (str): Путь до обученного дискриминатора ([скачать](https://drive.google.com/drive/folders/1dh21no-tVoBcDiPDwtoqkCz6KvUnECj7?usp=sharing))
 
-CHECKPOINT_GEN_LOAD (str): Путь до обученного генератора
+CHECKPOINT_GEN_LOAD (str): Путь до обученного генератора ([скачать](https://drive.google.com/drive/folders/1dh21no-tVoBcDiPDwtoqkCz6KvUnECj7?usp=sharing))
 
 CHECKPOINT_DISC (str): Путь до места, куда сохранить дискриминатор
 
