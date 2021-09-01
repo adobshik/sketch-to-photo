@@ -15,12 +15,22 @@ class Inference:
         self.load_gen()
 
     def load_gen(self):
+        ''' Загрузка обученного генератора из MODEL_PATH
+        '''
         print("=> Loading checkpoint")
         checkpoint_gen = torch.load(self.args_inference.MODEL_PATH, map_location='cpu')
         self.gen.load_state_dict(checkpoint_gen["state_dict"])
         print('Checkpoint was restored!')
 
     def prepare(self, path_to_image):
+        ''' Необходимые преобразования изображения (эскиза) для получения инференса генератора: 
+        изменение разрешения до 256х256,
+        если изображение одноканальное, преобразование в трехмерный тензор, иначе только смена размерностей.
+        Args:
+        path_to_image (str): путь до контурного изображения (эскиза) кошки
+        Return:
+        Преобразованное изображение
+        '''
         image = io.imread(path_to_image)
         image = transform.resize(image=image, output_shape=(256,256), order=1)
         image = torch.FloatTensor(image)
@@ -33,6 +43,11 @@ class Inference:
         return image
 
     def inference(self, path_to_image, save_path):
+        ''' Получение результаты работы обучененного генератора
+        Args:
+        path_to_image (str): путь до контурного изображения (эскиза) кошки
+        save_path (str): путь до места, куда сохранить синтезированную фотореалистическую версию
+        '''
         image = self.prepare(path_to_image)
         self.gen.eval()
         with torch.no_grad():
