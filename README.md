@@ -39,23 +39,29 @@ pip install -r requirements.txt
 
 1) Для запуска тренировки модели необходим csv файл, где в столбце 'cats' прописаны пути до изображений котов из датасета, а в столбце 'masks' соответствующие им эскизы, в третьем столбце 'kfold' нужно прописать значения, указывающие на принадлежность данных к обучающим или валидационным (например: 'kfold'=5 => данные валидационные, 'kfold'=0 => данные обучающие). Архив с данными и пример такого csv-файла находятся на том же [гугл диске](https://drive.google.com/drive/folders/1Vac7WEmrV-NGRH9je6vXiDHDtw-Upp8f?usp=sharing). Скачать предобученные генератор и дискриминатор можно [здесь](https://drive.google.com/drive/folders/1dh21no-tVoBcDiPDwtoqkCz6KvUnECj7?usp=sharing). 
 
-Запустите trainer.py и на место кавычек введите аргументы в виде: 
+Если вы хотите обучать модель с самого начала, запустите trainer.py и на место кавычек введите аргументы в виде: 
 ```
-python trainer.py --DATASET_FILE_PATH '' --LOAD_MODEL '' --CHECKPOINT_DISC '' --CHECKPOINT_GEN '' --EXAMPLES_PATH '' --FOLD ''
+python trainer.py --DATASET_FILE_PATH '' --CHECKPOINT_DISC '' --CHECKPOINT_GEN '' --EXAMPLES_PATH '' --FOLD ''
 ```
 DATASET_FILE_PATH (str): Путь до csv файла с путями до тренировочных данных
 
-LOAD_MODEL (bool): Загрузить предобученную модель? True, если да; иначе False
+CHECKPOINT_DISC (str): Путь до места, куда сохранить дискриминатор
 
-CHECKPOINT_DISC (str): Путь для сохранения дискриминатора
+CHECKPOINT_GEN (str): Путь до места, куда сохранить генератор
 
-CHECKPOINT_GEN (str): Путь для сохранения генератора
-
-EXAMPLES_PATH (str): Путь для сохранения примеров работы генератора
+EXAMPLES_PATH (str): Путь до места, куда сохранить примеры работы генератора
 
 FOLD (int): Валидационный фолд
 
 По дефолту модели сохраняются в metadata/models.
+
+Если вы хотите продолжить тренировку обученной модели:
+```
+python trainer.py --DATASET_FILE_PATH '' --LOAD_MODEL True --CHECKPOINT_DISC_LOAD '' --CHECKPOINT_GEN_LOAD '' --CHECKPOINT_DISC '' --CHECKPOINT_GEN '' --EXAMPLES_PATH '' --FOLD ''
+```
+CHECKPOINT_DISC_LOAD (str): Путь до обученного дискриминатора
+
+CHECKPOINT_GEN_LOAD (str): Путь до обученного генератора
 
 2) Запустите inference.py и на место кавычек введите аргументы в виде: 
 ```
