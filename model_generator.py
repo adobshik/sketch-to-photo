@@ -18,6 +18,12 @@ class Block(nn.Module):
         self.down = down
         
     def forward(self, x):
+        ''' Прямой проход свёрточного блока U-Net (генератора)
+        Args:
+        x (Tensor): текущий канал признаков полученный после преобразований над тензором входного изображения (эскиза кота)
+        Returns:
+        Преобразованный тензор
+        '''
         x = self.conv(x)
         return self.dropout(x) if self.use_dropout else x
 
@@ -72,6 +78,12 @@ class Generator(nn.Module):
         )
 
     def forward(self, x):
+        ''' Прямой проход генератора
+        Args:
+        x (Tensor): контур (эскиз) кота
+        Return:
+        Синтезированное цветное фотореалистическое изображение кота
+        '''
         d1 = self.initial_down(x)
         d2 = self.down1(d1)
         d3 = self.down2(d2)
