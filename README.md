@@ -59,9 +59,19 @@ FOLD (int): Валидационный фолд
 ```
 python trainer.py --DATASET_FILE_PATH '' --LOAD_MODEL True --CHECKPOINT_DISC_LOAD '' --CHECKPOINT_GEN_LOAD '' --CHECKPOINT_DISC '' --CHECKPOINT_GEN '' --EXAMPLES_PATH '' --FOLD ''
 ```
+DATASET_FILE_PATH (str): Путь до csv файла с путями до тренировочных данных
+
 CHECKPOINT_DISC_LOAD (str): Путь до обученного дискриминатора
 
 CHECKPOINT_GEN_LOAD (str): Путь до обученного генератора
+
+CHECKPOINT_DISC (str): Путь до места, куда сохранить дискриминатор
+
+CHECKPOINT_GEN (str): Путь до места, куда сохранить генератор
+
+EXAMPLES_PATH (str): Путь до места, куда сохранить примеры работы генератора
+
+FOLD (int): Валидационный фолд
 
 2) Запустите inference.py и на место кавычек введите аргументы в виде: 
 ```
