@@ -14,6 +14,12 @@ class CNNBlock(nn.Module):
         )
 
     def forward(self, x):
+        ''' Прямой проход свёрточного блока дискриминатора
+        Args:
+        x (Tensor): текущий канал признаков полученный после преобразований над входным тензором
+        Returns:
+        Преобразованный тензор
+        '''
         return self.conv(x)
 
 
@@ -49,6 +55,13 @@ class Discriminator(nn.Module):
         self.model = nn.Sequential(*layers)
 
     def forward(self, x, y):
+        ''' Прямой проход дискриминатора (дискриминатор пытается определить, является ли каждый фрагмент изображения размером N × N реальным или поддельным)
+        Args:
+        x (Tensor): контур (эскиз) кота
+        y (Tensor): действительное изображение кота
+        Return:
+        x (Tensor): выход дискриминатора, "PatchGAN" (как называют в статье "Image-to-Image Translation with Conditional Adversarial Networks")
+        '''
         x = torch.cat([x, y], dim=1)
         x = self.initial(x)
         x = self.model(x)
