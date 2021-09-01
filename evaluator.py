@@ -15,8 +15,12 @@ class Evaluator:
         self.L1_LOSS = nn.L1Loss()
         self.L1_LAMBDA = args['L1_LAMBDA']
 
-    # сохранение примеров работы генератора на валидационных данных
     def save_some_examples(self, val_loader, epoch):
+        ''' Сохраняет примеры работы генератора на валидационных данных в EXAMPLES_PATH
+        Аrgs: 
+        val_loader (объект класса DataLoader): загружает данные из валидационного датасета
+        epoch (int): номер текущей эпохи
+        '''
         x, y = next(iter(val_loader))
         x, y = x.to(self.device), y.to(self.device)
         self.gen.eval()
@@ -28,11 +32,18 @@ class Evaluator:
             save_image(y, self.EXAMPLES_PATH + f"/label_{epoch}.png")
 
     def one_step(self, x, y):
+        ''' Считает значение функций потерь дискриминатора и генератора на валидационных данных за одну итерацию
+        Аrgs:
+        x (Tensor): контур (эскиз) кота
+        y (Tensor): действительное изображение кота
+        Return:
+        Значения функций потерь генератора и дискриминатора в виде Python float
+        '''
         self.disc.eval()
         self.gen.eval()
         with torch.no_grad():
-            x = x.to(self.device, dtype=torch.float)  # контур (эскиз) кота
-            y = y.to(self.device, dtype=torch.float)  # действитевльно фото кота
+            x = x.to(self.device, dtype=torch.float)  
+            y = y.to(self.device, dtype=torch.float)  
             y_fake = self.gen(x)
             D_real = self.disc(x, y)
             D_real_loss = self.BCE(D_real, torch.ones_like(D_real))
@@ -47,6 +58,13 @@ class Evaluator:
         return D_loss.item(), G_loss.item()
 
     def evaluate(self, val_loader, epoch):
+        ''' Считает среднее значение функций потерь дискриминатора и генератора на валидационных данных за одну эпоху
+        Аrgs: 
+        val_loader (объект класса DataLoader): загружает данные из валидационного датасета
+        epoch (int): номер текущей эпохи
+        Return: 
+        Среднее значение функций потерь дискриминатора и генератора на валидационных данных за одну эпоху в виде Python float
+        '''
         d_losses = []
         g_losses = []
         print('Evaluating...')
