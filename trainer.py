@@ -19,6 +19,8 @@ class Trainer:
         self.args_save_load = args_save_load
         self.device = args['device'] if torch.cuda.is_available() else 'cpu'
         self.LOAD_MODEL = args_save_load.LOAD_MODEL
+        self.CHECKPOINT_DISC_LOAD = args_save_load.CHECKPOINT_DISC_LOAD
+        self.CHECKPOINT_GEN_LOAD = args_save_load.CHECKPOINT_GEN_LOAD
         self.CHECKPOINT_DISC = args_save_load.CHECKPOINT_DISC
         self.CHECKPOINT_GEN = args_save_load.CHECKPOINT_GEN
         self.LEARNING_RATE = args['LEARNING_RATE']
@@ -49,14 +51,14 @@ class Trainer:
             "state_dict": self.gen.state_dict(),
             "optimizer": self.opt_gen.state_dict(),
         }
-        torch.save(checkpoint_disc, self.args_save_load.CHECKPOINT_DISC + 'disc_epoch_' + str(epoch))
-        torch.save(checkpoint_gen, self.args_save_load.CHECKPOINT_GEN + 'gen_epoch_' + str(epoch))
+        torch.save(checkpoint_disc, self.args_save_load.CHECKPOINT_DISC + 'disc_epoch_' + str(epoch)+'.pth')
+        torch.save(checkpoint_gen, self.args_save_load.CHECKPOINT_GEN + 'gen_epoch_' + str(epoch)+'.pth')
 
     # загрузка моделей
     def load_checkpoint(self):
         print("=> Loading checkpoint")
-        checkpoint_disc = torch.load(self.args_save_load.CHECKPOINT_DISC, map_location='cpu')
-        checkpoint_gen = torch.load(self.args_save_load.CHECKPOINT_GEN, map_location='cpu')
+        checkpoint_disc = torch.load(self.args_save_load.CHECKPOINT_DISC_LOAD, map_location='cpu')
+        checkpoint_gen = torch.load(self.args_save_load.CHECKPOINT_GEN_LOAD, map_location='cpu')
         self.disc.load_state_dict(checkpoint_disc["state_dict"])
         self.gen.load_state_dict(checkpoint_gen["state_dict"])
         self.opt_disc.load_state_dict(checkpoint_disc["optimizer"])
@@ -115,6 +117,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Введите требуемые параметры и пути.')
     parser.add_argument('--DATASET_FILE_PATH', type=str, help='Путь до csv файла с путями до тренировочных данных')
     parser.add_argument('--LOAD_MODEL', default=False, type=bool, help='Загрузить предобученную модель? True, если да; иначе False.')
+    parser.add_argument('--CHECKPOINT_DISC_LOAD', default='metadata/models', type=str, help='Путь до предобученного дискриминатора.')
+    parser.add_argument('--CHECKPOINT_GEN_LOAD', default='metadata/models', type=str, help='Путь до предобученного генератора.')
     parser.add_argument('--CHECKPOINT_DISC', default='metadata/models/disc.pth', type=str, help='Путь для сохранения дискриминатора.')
     parser.add_argument('--CHECKPOINT_GEN',  default='metadata/models/gen.pth', type=str, help='Путь для сохранения генератора.')
     parser.add_argument('--EXAMPLES_PATH', default='metadata/examples', type=str, help='Путь для сохранения примеров работы генератора')
