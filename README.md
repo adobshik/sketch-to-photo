@@ -56,7 +56,7 @@ FOLD (int): Валидационный фолд
 
 По дефолту модели сохраняются в metadata/models.
 
-Если вы хотите продолжить тренировку обученной модели:
+Если вы хотите продолжить тренировку частично обученной модели:
 ```
 python trainer.py --DATASET_FILE_PATH '' --LOAD_MODEL True --CHECKPOINT_DISC_LOAD '' --CHECKPOINT_GEN_LOAD '' --CHECKPOINT_DISC '' --CHECKPOINT_GEN '' --EXAMPLES_PATH '' --FOLD ''
 ```
