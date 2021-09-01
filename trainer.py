@@ -40,8 +40,11 @@ class Trainer:
         self.G_LOSS_PATH = args['G_LOSS_PATH']
         self.evaluator = Evaluator(args_save_load, args, self.gen, self.disc)
 
-    # сохранение моделей
     def save_checkpoint(self, epoch):
+        ''' Сохраняет дискриминатор и генератор в пути CHECKPOINT_DISC и CHECKPOINT_GEN соответственно
+        Args:
+        epoch (int): номер эпохи
+        '''
         print("=> Saving checkpoint")
         checkpoint_disc = {
             "state_dict": self.disc.state_dict(),
@@ -54,8 +57,9 @@ class Trainer:
         torch.save(checkpoint_disc, self.args_save_load.CHECKPOINT_DISC + '_disc_epoch_' + str(epoch) + '.pth')
         torch.save(checkpoint_gen, self.args_save_load.CHECKPOINT_GEN + '_gen_epoch_' + str(epoch) + '.pth')
 
-    # загрузка моделей
     def load_checkpoint(self):
+        ''' Загружает дискриминатор и генератор из путей CHECKPOINT_DISC_LOAD и CHECKPOINT_GEN_LOAD соответственно
+        '''
         print("=> Loading checkpoint")
         checkpoint_disc = torch.load(self.args_save_load.CHECKPOINT_DISC_LOAD, map_location='cpu')
         checkpoint_gen = torch.load(self.args_save_load.CHECKPOINT_GEN_LOAD, map_location='cpu')
@@ -65,12 +69,19 @@ class Trainer:
         self.opt_gen.load_state_dict(checkpoint_gen["optimizer"])
         print('Checkpoint was restored!')
 
-    #  функция для тренировки одной эпохи сети
     def one_step(self, x, y):
+        ''' Одна итерация обучения сети 
+        Args:
+        x (Tensor): контур (эскиз) кота
+        y (Tensor): действительное изображение кота
+        Return:
+        Значения функций потерь генератора и дискриминатора за одну итерацию в виде Python float
+        '''
         self.disc.train()
         self.gen.train()
-        x = x.to(self.device, dtype=torch.float)  # контур (эскиз) кота
-        y = y.to(self.device, dtype=torch.float)  # действитевльно фото кота
+        x = x.to(self.device, dtype=torch.float)  
+        y = y.to(self.device, dtype=torch.float)  
+
         # Тренировка дискриминатора
         y_fake = self.gen(x)
         D_real = self.disc(x, y)
@@ -94,8 +105,15 @@ class Trainer:
         self.opt_gen.step()
         return D_loss.item(), G_loss.item()
 
-
     def train(self, train_loader, val_loader):
+        ''' Обучение сети в течении количества эпох равного NUM_EPOCHS, 
+        включая:
+        сохранение в файлы D_LOSS_PATH и G_LOSS_PATH соответственно средних значений функций потерь дискриминатора и генератора за каждую эпоху, 
+        сохранение моделей каждые 5 эпох.
+        Args:
+        train_loader (объект класса DataLoader): загружает данные из тренировочного датасета
+        val_loader (объект класса DataLoader): загружает данные из валидационного датасета
+        '''
         for epoch in range(self.NUM_EPOCHS):
             d_loss_epoch = []
             g_loss_epoch = []
@@ -106,10 +124,9 @@ class Trainer:
                 g_loss_epoch.append(g_loss)
                 loop.set_postfix(loss_d=np.array(d_loss_epoch).mean(), loss_g=np.array(g_loss_epoch).mean())
             val_d_loss, val_g_loss = self.evaluator.evaluate(val_loader, epoch)
-            # Запись в файл значений функций потерь для дальнейшего построения кривых обучения
             loss_writer(self.D_LOSS_PATH, train_loss=np.array(d_loss_epoch).mean(), val_loss=val_d_loss)
             loss_writer(self.G_LOSS_PATH, train_loss=np.array(g_loss_epoch).mean(), val_loss=val_g_loss)
-            if self.SAVE_MODEL and epoch % 5 == 0 and epoch != 0:  # сохранение моделей каждые 5 эпох
+            if self.SAVE_MODEL and epoch % 5 == 0 and epoch != 0:  
                 self.save_checkpoint(epoch)
 
 
