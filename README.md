@@ -3,6 +3,7 @@
 В этом репозитории вы найдете модель, основанную на нейронной сети, которая берет контурное изображение (эскиз или рисунок) кошки и создает его цветную фотореалистическую версию.
 
 Пример набросанного в paint от руки контурного изображения и его синтезированная фотореалистическая версия. 
+
 ![Image alt](https://github.com/adobshik/sketch-to-photo/blob/main/example/1cat.png)
 ![Image alt](https://github.com/adobshik/sketch-to-photo/blob/main/example/1mask.png)
 
