@@ -85,9 +85,7 @@ IMAGE_PATH (str): Путь до эскиза
 SAVE_PATH (str): Путь до места, куда сохранить синтезированную фотореалистическую версию
 
 
-#  Кривые обучения (на тренировочных данных):
-(График функции потерь не совсем точный, тк значение функции потерь не усреднялось по всем итерациям эпохи, а принималось равным значению функции потерь только на последней итерации эпохи. На данный момент заново обучаю модель, чтобы переделать графики).
+#  Кривые обучения:
 
-
-![Image alt](https://github.com/adobshik/sketch-to-photo/blob/main/example/gen_testplot.png)
-![Image alt](https://github.com/adobshik/sketch-to-photo/blob/main/example/disc_testplot.png)
+![Image alt](https://github.com/adobshik/sketch-to-photo/blob/main/example/disc%20(1).png)
+![Image alt](https://github.com/adobshik/sketch-to-photo/blob/main/example/gen.png)
